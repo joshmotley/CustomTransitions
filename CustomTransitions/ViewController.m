@@ -7,8 +7,12 @@
 //
 
 #import "ViewController.h"
+#import "CustomAnimator.h"
+#import "SecondViewController.h"
 
-@interface ViewController ()
+@interface ViewController () <UINavigationControllerDelegate>
+
+@property (strong, nonatomic) CustomAnimator *animator;
 
 @end
 
@@ -16,9 +20,28 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view, typically from a nib.
+    
+    self.animator = [CustomAnimator new];
+    self.navigationController.delegate = self;
 }
 
+-(id<UIViewControllerAnimatedTransitioning>)navigationController:(UINavigationController *)navigationController animationControllerForOperation:(UINavigationControllerOperation)operation fromViewController:(UIViewController *)fromVC toViewController:(UIViewController *)toVC{
+    
+    if (operation == UINavigationControllerOperationPush) {
+        return self.animator;
+    }
+    return nil;
+}
+
+-(void)viewDidAppear:(BOOL)animated{
+    self.navigationController.navigationBarHidden = YES;
+}
+
+- (IBAction)pushAction:(id)sender {
+    SecondViewController *secondVC = [self.storyboard instantiateViewControllerWithIdentifier:@"secondVC"];
+    [self.navigationController pushViewController:secondVC animated:true];
+    
+}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
