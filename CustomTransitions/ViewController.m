@@ -65,8 +65,7 @@
 }
 
 - (IBAction)pushAction:(id)sender {
-    SecondViewController *secondVC = [self.storyboard instantiateViewControllerWithIdentifier:@"secondVC"];
-    [self.navigationController pushViewController:secondVC animated:true];
+    [self performSegueWithIdentifier:@"toTabBar" sender:self];
     
 }
 
